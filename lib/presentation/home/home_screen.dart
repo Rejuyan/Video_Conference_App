@@ -34,11 +34,26 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     } else if (comparisonDate == today.add(const Duration(days: 1))) {
       dateStr = "Tomorrow";
     } else {
-      final months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      final months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
       dateStr = "${months[dt.month - 1]} ${dt.day}, ${dt.year}";
     }
 
-    final hourStr = dt.hour == 0 ? "12" : (dt.hour > 12 ? (dt.hour - 12).toString() : dt.hour.toString());
+    final hourStr = dt.hour == 0
+        ? "12"
+        : (dt.hour > 12 ? (dt.hour - 12).toString() : dt.hour.toString());
     final minuteStr = dt.minute.toString().padLeft(2, '0');
     final amPmStr = dt.hour >= 12 ? "PM" : "AM";
 
@@ -52,14 +67,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     bool startAudioMuted = false,
     bool startVideoMuted = false,
   }) async {
-    final permissionsGranted = await PermissionService.hasCameraAndMicPermissions();
+    final permissionsGranted =
+        await PermissionService.hasCameraAndMicPermissions();
     if (!permissionsGranted) {
-      final requested = await PermissionService.requestCameraAndMicPermissions();
+      final requested =
+          await PermissionService.requestCameraAndMicPermissions();
       if (!requested) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: const Text("Camera/Microphone access is required to join a call."),
+              content: const Text(
+                "Camera/Microphone access is required to join a call.",
+              ),
               backgroundColor: VMeetTheme.destructive.withAlpha(200),
             ),
           );
@@ -120,7 +139,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               child: GlassContainer(
                 borderRadius: 30,
                 opacity: 0.12,
-                borderSide: const BorderSide(color: VMeetTheme.border, width: 1.5),
+                borderSide: const BorderSide(
+                  color: VMeetTheme.border,
+                  width: 1.5,
+                ),
                 padding: const EdgeInsets.all(28),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -138,13 +160,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.close_rounded, color: Colors.white60),
+                          icon: const Icon(
+                            Icons.close_rounded,
+                            color: Colors.white60,
+                          ),
                           onPressed: () => Navigator.pop(context),
                         ),
                       ],
                     ),
                     const SizedBox(height: 25),
-                    
+
                     // Selected Avatar Preview
                     Center(
                       child: VMeetAvatar(
@@ -155,7 +180,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                     ),
                     const SizedBox(height: 25),
-                    
+
                     // Nickname field
                     TextField(
                       controller: nameController,
@@ -165,15 +190,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       decoration: const InputDecoration(
                         labelText: "DisplayName",
                         counterText: "",
-                        prefixIcon: Icon(Icons.person_outline_rounded, color: VMeetTheme.primary),
+                        prefixIcon: Icon(
+                          Icons.person_outline_rounded,
+                          color: VMeetTheme.primary,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 25),
-                    
+
                     // Avatar selector
                     Text(
                       "Select Theme",
-                      style: GoogleFonts.outfit(fontWeight: FontWeight.w600, color: Colors.white70),
+                      style: GoogleFonts.outfit(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white70,
+                      ),
                     ),
                     const SizedBox(height: 12),
                     Row(
@@ -196,16 +227,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                     ),
                     const SizedBox(height: 35),
-                    
+
                     GlowingButton(
                       onTap: () async {
                         final newName = nameController.text.trim();
                         if (newName.isEmpty) return;
-                        
-                        await ref.read(profileStateProvider.notifier).saveProfile(
-                              newName,
-                              selectedAvatarIdx,
-                            );
+
+                        await ref
+                            .read(profileStateProvider.notifier)
+                            .saveProfile(newName, selectedAvatarIdx);
                         if (context.mounted) Navigator.pop(context);
                       },
                       text: "Save Changes",
@@ -224,7 +254,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   // Opens "Create Meeting" information dialog
   void _showCreateMeetingDialog() {
     final generatedCode = MeetingCodeGenerator.generate();
-    
+
     showDialog(
       context: context,
       builder: (context) {
@@ -247,7 +277,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         color: VMeetTheme.primary.withAlpha(40),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: const Icon(Icons.add_call, color: VMeetTheme.primary, size: 24),
+                      child: const Icon(
+                        Icons.add_call,
+                        color: VMeetTheme.primary,
+                        size: 24,
+                      ),
                     ),
                     const SizedBox(width: 14),
                     Text(
@@ -263,13 +297,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 const SizedBox(height: 25),
                 Text(
                   "Share this meeting ID with friends or teammates. Anyone can join instantly for free.",
-                  style: GoogleFonts.outfit(color: VMeetTheme.textSecondary, height: 1.4),
+                  style: GoogleFonts.outfit(
+                    color: VMeetTheme.textSecondary,
+                    height: 1.4,
+                  ),
                 ),
                 const SizedBox(height: 25),
-                
+
                 // Copyable Code Box
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 18,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.black38,
                     borderRadius: BorderRadius.circular(16),
@@ -288,7 +328,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                       ),
                       IconButton(
-                        icon: const Icon(Icons.copy_rounded, color: VMeetTheme.primary),
+                        icon: const Icon(
+                          Icons.copy_rounded,
+                          color: VMeetTheme.primary,
+                        ),
                         onPressed: () {
                           Clipboard.setData(ClipboardData(text: generatedCode));
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -321,7 +364,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         height: 48,
                         onTap: () {
                           Navigator.pop(context);
-                          _launchCall(code: generatedCode, subject: "Quick Meeting");
+                          _launchCall(
+                            code: generatedCode,
+                            subject: "Quick Meeting",
+                          );
                         },
                         text: "Start Now",
                         icon: Icons.play_arrow_rounded,
@@ -355,7 +401,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               child: GlassContainer(
                 padding: const EdgeInsets.all(28),
                 borderRadius: 24,
-                borderSide: const BorderSide(color: VMeetTheme.secondary, width: 1.2),
+                borderSide: const BorderSide(
+                  color: VMeetTheme.secondary,
+                  width: 1.2,
+                ),
                 child: Form(
                   key: formKey,
                   child: Column(
@@ -370,7 +419,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               color: VMeetTheme.secondary.withAlpha(40),
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: const Icon(Icons.login_rounded, color: VMeetTheme.secondary, size: 24),
+                            child: const Icon(
+                              Icons.login_rounded,
+                              color: VMeetTheme.secondary,
+                              size: 24,
+                            ),
                           ),
                           const SizedBox(width: 14),
                           Text(
@@ -384,7 +437,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ],
                       ),
                       const SizedBox(height: 25),
-                      
+
                       // Text field
                       TextFormField(
                         controller: codeController,
@@ -392,7 +445,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         decoration: const InputDecoration(
                           labelText: "Enter Meeting ID",
                           hintText: "e.g. vmt-xyz-abc",
-                          prefixIcon: Icon(Icons.vpn_key_outlined, color: VMeetTheme.secondary),
+                          prefixIcon: Icon(
+                            Icons.vpn_key_outlined,
+                            color: VMeetTheme.secondary,
+                          ),
                         ),
                         validator: (val) {
                           if (val == null || val.trim().isEmpty) {
@@ -417,7 +473,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         },
                         title: Text(
                           "Start with Audio Muted",
-                          style: GoogleFonts.outfit(fontSize: 14, color: Colors.white70),
+                          style: GoogleFonts.outfit(
+                            fontSize: 14,
+                            color: Colors.white70,
+                          ),
                         ),
                         activeThumbColor: VMeetTheme.secondary,
                         activeTrackColor: VMeetTheme.secondary.withAlpha(80),
@@ -425,7 +484,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         inactiveTrackColor: Colors.white10,
                         contentPadding: EdgeInsets.zero,
                       ),
-                      
+
                       // Camera Switch
                       SwitchListTile(
                         value: startVideoMuted,
@@ -436,7 +495,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         },
                         title: Text(
                           "Start with Camera Off",
-                          style: GoogleFonts.outfit(fontSize: 14, color: Colors.white70),
+                          style: GoogleFonts.outfit(
+                            fontSize: 14,
+                            color: Colors.white70,
+                          ),
                         ),
                         activeThumbColor: VMeetTheme.secondary,
                         activeTrackColor: VMeetTheme.secondary.withAlpha(80),
@@ -452,7 +514,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               onPressed: () => Navigator.pop(context),
                               style: TextButton.styleFrom(
                                 foregroundColor: VMeetTheme.textSecondary,
-                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 14,
+                                ),
                               ),
                               child: const Text("CANCEL"),
                             ),
@@ -504,7 +568,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       builder: (context) {
         return StatefulBuilder(
           builder: (context, setSheetState) {
-            final formattedDateStr = "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}";
+            final formattedDateStr =
+                "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}";
             final formattedTimeStr = selectedTime.format(context);
 
             return Padding(
@@ -514,7 +579,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               child: GlassContainer(
                 borderRadius: 30,
                 opacity: 0.12,
-                borderSide: const BorderSide(color: VMeetTheme.border, width: 1.5),
+                borderSide: const BorderSide(
+                  color: VMeetTheme.border,
+                  width: 1.5,
+                ),
                 padding: const EdgeInsets.all(28),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -532,13 +600,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.close_rounded, color: Colors.white60),
+                          icon: const Icon(
+                            Icons.close_rounded,
+                            color: Colors.white60,
+                          ),
                           onPressed: () => Navigator.pop(context),
                         ),
                       ],
                     ),
                     const SizedBox(height: 25),
-                    
+
                     // Subject field
                     TextField(
                       controller: titleController,
@@ -546,11 +617,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       decoration: const InputDecoration(
                         labelText: "Meeting Subject",
                         hintText: "e.g. Project Sync",
-                        prefixIcon: Icon(Icons.edit_calendar_rounded, color: VMeetTheme.primary),
+                        prefixIcon: Icon(
+                          Icons.edit_calendar_rounded,
+                          color: VMeetTheme.primary,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 25),
-                    
+
                     // Pickers rows
                     Row(
                       children: [
@@ -562,7 +636,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 context: context,
                                 initialDate: selectedDate,
                                 firstDate: DateTime.now(),
-                                lastDate: DateTime.now().add(const Duration(days: 365)),
+                                lastDate: DateTime.now().add(
+                                  const Duration(days: 365),
+                                ),
                               );
                               if (picked != null) {
                                 setSheetState(() {
@@ -576,13 +652,31 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               opacity: 0.05,
                               child: Row(
                                 children: [
-                                  const Icon(Icons.calendar_month_rounded, color: VMeetTheme.primary, size: 20),
+                                  const Icon(
+                                    Icons.calendar_month_rounded,
+                                    color: VMeetTheme.primary,
+                                    size: 20,
+                                  ),
                                   const SizedBox(width: 12),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Text("DATE", style: GoogleFonts.outfit(fontSize: 10, color: Colors.white38)),
-                                      Text(formattedDateStr, style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+                                      Text(
+                                        "DATE",
+                                        style: GoogleFonts.outfit(
+                                          fontSize: 10,
+                                          color: Colors.white38,
+                                        ),
+                                      ),
+                                      Text(
+                                        formattedDateStr,
+                                        style: GoogleFonts.outfit(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ],
@@ -591,7 +685,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ),
                         ),
                         const SizedBox(width: 12),
-                        
+
                         // Time picker
                         Expanded(
                           child: InkWell(
@@ -612,13 +706,31 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               opacity: 0.05,
                               child: Row(
                                 children: [
-                                  const Icon(Icons.access_time_rounded, color: VMeetTheme.primary, size: 20),
+                                  const Icon(
+                                    Icons.access_time_rounded,
+                                    color: VMeetTheme.primary,
+                                    size: 20,
+                                  ),
                                   const SizedBox(width: 12),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Text("TIME", style: GoogleFonts.outfit(fontSize: 10, color: Colors.white38)),
-                                      Text(formattedTimeStr, style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+                                      Text(
+                                        "TIME",
+                                        style: GoogleFonts.outfit(
+                                          fontSize: 10,
+                                          color: Colors.white38,
+                                        ),
+                                      ),
+                                      Text(
+                                        formattedTimeStr,
+                                        style: GoogleFonts.outfit(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ],
@@ -629,12 +741,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ],
                     ),
                     const SizedBox(height: 35),
-                    
+
                     GlowingButton(
                       onTap: () async {
                         final subject = titleController.text.trim();
                         if (subject.isEmpty) return;
-                        
+
                         final meetingDateTime = DateTime(
                           selectedDate.year,
                           selectedDate.month,
@@ -651,7 +763,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           isScheduled: true,
                         );
 
-                        await ref.read(schedulesProvider.notifier).addSchedule(schedule);
+                        await ref
+                            .read(schedulesProvider.notifier)
+                            .addSchedule(schedule);
                         if (context.mounted) {
                           Navigator.pop(context);
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -693,7 +807,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               Padding(
                 padding: const EdgeInsets.all(20),
                 child: GlassContainer(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 16,
+                  ),
                   borderRadius: 22,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -729,17 +846,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ),
                         ],
                       ),
-                      
+
                       // Edit profile triggers
                       IconButton(
-                        icon: const Icon(Icons.settings_suggest_rounded, color: VMeetTheme.primary),
+                        icon: const Icon(
+                          Icons.settings_suggest_rounded,
+                          color: VMeetTheme.primary,
+                        ),
                         onPressed: _showEditProfileSheet,
                       ),
                     ],
                   ),
                 ),
               ),
-              
+
               // Action Quick Cards Grid
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -762,21 +882,41 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 decoration: BoxDecoration(
                                   gradient: VMeetTheme.primaryGradient,
                                   borderRadius: BorderRadius.circular(12),
-                                  boxShadow: VMeetTheme.glowShadow(VMeetTheme.primary, radius: 5),
+                                  boxShadow: VMeetTheme.glowShadow(
+                                    VMeetTheme.primary,
+                                    radius: 5,
+                                  ),
                                 ),
-                                child: const Icon(Icons.add_box_rounded, color: Colors.white, size: 22),
+                                child: const Icon(
+                                  Icons.add_box_rounded,
+                                  color: Colors.white,
+                                  size: 22,
+                                ),
                               ),
                               const SizedBox(height: 18),
-                              Text("New Call", style: GoogleFonts.outfit(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white)),
+                              Text(
+                                "New Call",
+                                style: GoogleFonts.outfit(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
                               const SizedBox(height: 4),
-                              Text("Start an instant link", style: GoogleFonts.outfit(fontSize: 11, color: VMeetTheme.textSecondary)),
+                              Text(
+                                "Start an instant link",
+                                style: GoogleFonts.outfit(
+                                  fontSize: 11,
+                                  color: VMeetTheme.textSecondary,
+                                ),
+                              ),
                             ],
                           ),
                         ),
                       ),
                     ),
                     const SizedBox(width: 14),
-                    
+
                     // Join with ID Action Card
                     Expanded(
                       child: InkWell(
@@ -794,21 +934,41 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 decoration: BoxDecoration(
                                   gradient: VMeetTheme.secondaryGradient,
                                   borderRadius: BorderRadius.circular(12),
-                                  boxShadow: VMeetTheme.glowShadow(VMeetTheme.secondary, radius: 5),
+                                  boxShadow: VMeetTheme.glowShadow(
+                                    VMeetTheme.secondary,
+                                    radius: 5,
+                                  ),
                                 ),
-                                child: const Icon(Icons.videocam_rounded, color: Colors.white, size: 22),
+                                child: const Icon(
+                                  Icons.videocam_rounded,
+                                  color: Colors.white,
+                                  size: 22,
+                                ),
                               ),
                               const SizedBox(height: 18),
-                              Text("Join Call", style: GoogleFonts.outfit(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white)),
+                              Text(
+                                "Join Call",
+                                style: GoogleFonts.outfit(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
                               const SizedBox(height: 4),
-                              Text("Enter invitation ID", style: GoogleFonts.outfit(fontSize: 11, color: VMeetTheme.textSecondary)),
+                              Text(
+                                "Enter invitation ID",
+                                style: GoogleFonts.outfit(
+                                  fontSize: 11,
+                                  color: VMeetTheme.textSecondary,
+                                ),
+                              ),
                             ],
                           ),
                         ),
                       ),
                     ),
                     const SizedBox(width: 14),
-                    
+
                     // Schedule Action Card
                     Expanded(
                       child: InkWell(
@@ -827,12 +987,29 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   color: VMeetTheme.border,
                                   borderRadius: BorderRadius.circular(12),
                                 ),
-                                child: const Icon(Icons.calendar_month_rounded, color: Colors.white, size: 22),
+                                child: const Icon(
+                                  Icons.calendar_month_rounded,
+                                  color: Colors.white,
+                                  size: 22,
+                                ),
                               ),
                               const SizedBox(height: 18),
-                              Text("Schedule", style: GoogleFonts.outfit(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white)),
+                              Text(
+                                "Schedule",
+                                style: GoogleFonts.outfit(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
                               const SizedBox(height: 4),
-                              Text("Plan a meeting", style: GoogleFonts.outfit(fontSize: 11, color: VMeetTheme.textSecondary)),
+                              Text(
+                                "Plan a meeting",
+                                style: GoogleFonts.outfit(
+                                  fontSize: 11,
+                                  color: VMeetTheme.textSecondary,
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -841,9 +1018,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ],
                 ),
               ),
-              
+
               const SizedBox(height: 30),
-              
+
               // Sliding Tab Headers (Upcoming vs Past)
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -853,12 +1030,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     GestureDetector(
                       onTap: () => setState(() => _showSchedules = true),
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
                         decoration: BoxDecoration(
-                          color: _showSchedules ? VMeetTheme.primary.withAlpha(40) : Colors.transparent,
+                          color: _showSchedules
+                              ? VMeetTheme.primary.withAlpha(40)
+                              : Colors.transparent,
                           borderRadius: BorderRadius.circular(30),
                           border: _showSchedules
-                              ? Border.all(color: VMeetTheme.primary.withAlpha(120), width: 1.2)
+                              ? Border.all(
+                                  color: VMeetTheme.primary.withAlpha(120),
+                                  width: 1.2,
+                                )
                               : null,
                         ),
                         child: Text(
@@ -866,23 +1051,33 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           style: GoogleFonts.outfit(
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
-                            color: _showSchedules ? Colors.white : VMeetTheme.textSecondary,
+                            color: _showSchedules
+                                ? Colors.white
+                                : VMeetTheme.textSecondary,
                           ),
                         ),
                       ),
                     ),
                     const SizedBox(width: 12),
-                    
+
                     // Tab 2: History
                     GestureDetector(
                       onTap: () => setState(() => _showSchedules = false),
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
                         decoration: BoxDecoration(
-                          color: !_showSchedules ? VMeetTheme.secondary.withAlpha(40) : Colors.transparent,
+                          color: !_showSchedules
+                              ? VMeetTheme.secondary.withAlpha(40)
+                              : Colors.transparent,
                           borderRadius: BorderRadius.circular(30),
                           border: !_showSchedules
-                              ? Border.all(color: VMeetTheme.secondary.withAlpha(120), width: 1.2)
+                              ? Border.all(
+                                  color: VMeetTheme.secondary.withAlpha(120),
+                                  width: 1.2,
+                                )
                               : null,
                         ),
                         child: Text(
@@ -890,33 +1085,43 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           style: GoogleFonts.outfit(
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
-                            color: !_showSchedules ? Colors.white : VMeetTheme.textSecondary,
+                            color: !_showSchedules
+                                ? Colors.white
+                                : VMeetTheme.textSecondary,
                           ),
                         ),
                       ),
                     ),
                     const Spacer(),
-                    
+
                     // Clear history button
                     if (!_showSchedules && history.isNotEmpty)
                       TextButton(
                         onPressed: () {
-                          ref.read(meetingHistoryProvider.notifier).clearHistory();
+                          ref
+                              .read(meetingHistoryProvider.notifier)
+                              .clearHistory();
                         },
                         child: Text(
                           "Clear Log",
-                          style: GoogleFonts.outfit(color: VMeetTheme.destructive, fontSize: 12, fontWeight: FontWeight.bold),
+                          style: GoogleFonts.outfit(
+                            color: VMeetTheme.destructive,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                   ],
                 ),
               ),
-              
+
               const SizedBox(height: 12),
-              
+
               // Timeline List Feed
               Expanded(
-                child: _showSchedules ? _buildSchedulesFeed(schedules) : _buildHistoryFeed(history),
+                child: _showSchedules
+                    ? _buildSchedulesFeed(schedules)
+                    : _buildHistoryFeed(history),
               ),
             ],
           ),
@@ -931,7 +1136,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       return _buildEmptyState(
         icon: Icons.calendar_today_rounded,
         title: "No Scheduled Meetings",
-        subtitle: "Schedule one using the button above to coordinate in advance.",
+        subtitle:
+            "Schedule one using the button above to coordinate in advance.",
       );
     }
 
@@ -953,25 +1159,40 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   children: [
                     Text(
                       item.subject,
-                      style: GoogleFonts.outfit(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                      style: GoogleFonts.outfit(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 6),
                     Row(
                       children: [
-                        const Icon(Icons.schedule_rounded, size: 12, color: VMeetTheme.primary),
+                        const Icon(
+                          Icons.schedule_rounded,
+                          size: 12,
+                          color: VMeetTheme.primary,
+                        ),
                         const SizedBox(width: 6),
                         Text(
                           _formatDateTime(item.timestamp),
-                          style: GoogleFonts.outfit(fontSize: 11, color: VMeetTheme.textSecondary),
+                          style: GoogleFonts.outfit(
+                            fontSize: 11,
+                            color: VMeetTheme.textSecondary,
+                          ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 6),
                     Text(
                       "Code: ${item.roomCode}",
-                      style: GoogleFonts.outfit(fontSize: 12, color: VMeetTheme.primary, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.outfit(
+                        fontSize: 12,
+                        color: VMeetTheme.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
@@ -983,14 +1204,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     width: 80,
                     height: 36,
                     borderRadius: 10,
-                    onTap: () => _launchCall(code: item.roomCode, subject: item.subject),
+                    onTap: () =>
+                        _launchCall(code: item.roomCode, subject: item.subject),
                     text: "Join",
                   ),
                   const SizedBox(height: 8),
                   IconButton(
-                    icon: const Icon(Icons.delete_outline_rounded, color: VMeetTheme.destructive, size: 18),
+                    icon: const Icon(
+                      Icons.delete_outline_rounded,
+                      color: VMeetTheme.destructive,
+                      size: 18,
+                    ),
                     onPressed: () {
-                      ref.read(schedulesProvider.notifier).removeSchedule(item.id);
+                      ref
+                          .read(schedulesProvider.notifier)
+                          .removeSchedule(item.id);
                     },
                   ),
                 ],
@@ -1008,7 +1236,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       return _buildEmptyState(
         icon: Icons.history_rounded,
         title: "Meeting History Empty",
-        subtitle: "Your completed meetings will be logged here to easily rejoin.",
+        subtitle:
+            "Your completed meetings will be logged here to easily rejoin.",
       );
     }
 
@@ -1030,19 +1259,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   children: [
                     Text(
                       item.subject,
-                      style: GoogleFonts.outfit(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white),
+                      style: GoogleFonts.outfit(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 6),
                     Text(
                       "Joined on ${_formatDateTime(item.timestamp)}",
-                      style: GoogleFonts.outfit(fontSize: 11, color: VMeetTheme.textSecondary),
+                      style: GoogleFonts.outfit(
+                        fontSize: 11,
+                        color: VMeetTheme.textSecondary,
+                      ),
                     ),
                     const SizedBox(height: 6),
                     Text(
                       item.roomCode,
-                      style: GoogleFonts.outfit(fontSize: 12, color: VMeetTheme.secondary, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.outfit(
+                        fontSize: 12,
+                        color: VMeetTheme.secondary,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
@@ -1054,7 +1294,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 gradient: VMeetTheme.secondaryGradient,
                 glowColor: VMeetTheme.secondary,
                 borderRadius: 10,
-                onTap: () => _launchCall(code: item.roomCode, subject: item.subject),
+                onTap: () =>
+                    _launchCall(code: item.roomCode, subject: item.subject),
                 text: "Rejoin",
               ),
             ],
@@ -1065,7 +1306,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   // Widget for Empty state displays
-  Widget _buildEmptyState({required IconData icon, required String title, required String subtitle}) {
+  Widget _buildEmptyState({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+  }) {
     return Padding(
       padding: const EdgeInsets.all(40),
       child: Column(
@@ -1077,18 +1322,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               color: Colors.white.withAlpha(10),
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, size: 40, color: VMeetTheme.textSecondary.withAlpha(150)),
+            child: Icon(
+              icon,
+              size: 40,
+              color: VMeetTheme.textSecondary.withAlpha(150),
+            ),
           ),
           const SizedBox(height: 18),
           Text(
             title,
-            style: GoogleFonts.outfit(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white70),
+            style: GoogleFonts.outfit(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.white70,
+            ),
           ),
           const SizedBox(height: 8),
           Text(
             subtitle,
             textAlign: TextAlign.center,
-            style: GoogleFonts.outfit(fontSize: 12, color: VMeetTheme.textSecondary, height: 1.4),
+            style: GoogleFonts.outfit(
+              fontSize: 12,
+              color: VMeetTheme.textSecondary,
+              height: 1.4,
+            ),
           ),
         ],
       ),

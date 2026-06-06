@@ -103,7 +103,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               ),
             ),
           ),
-          
+
           // Bottom-Right Dusty Rose Glow
           Positioned(
             bottom: -150,
@@ -129,14 +129,19 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           SafeArea(
             child: Center(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 30,
+                ),
                 child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 450), // Standard premium card width limit
+                  constraints: const BoxConstraints(
+                    maxWidth: 450,
+                  ), // Standard premium card width limit
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const SizedBox(height: 10),
-                      
+
                       // Custom Vector Brand Header Logo (Replaces low quality asset image)
                       Row(
                         mainAxisSize: MainAxisSize.min,
@@ -146,7 +151,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                             decoration: BoxDecoration(
                               gradient: VMeetTheme.primaryGradient,
                               borderRadius: BorderRadius.circular(18),
-                              boxShadow: VMeetTheme.glowShadow(const Color(0xFF818CF8), radius: 8),
+                              boxShadow: VMeetTheme.glowShadow(
+                                const Color(0xFF818CF8),
+                                radius: 8,
+                              ),
                             ),
                             child: const Icon(
                               Icons.videocam_rounded,
@@ -159,7 +167,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               ShaderMask(
-                                shaderCallback: (bounds) => VMeetTheme.primaryGradient.createShader(bounds),
+                                shaderCallback: (bounds) => VMeetTheme
+                                    .primaryGradient
+                                    .createShader(bounds),
                                 child: Text(
                                   "vMeet",
                                   style: GoogleFonts.outfit(
@@ -183,9 +193,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                           ),
                         ],
                       ),
-                      
+
                       const SizedBox(height: 14),
-                      
+
                       Text(
                         "Ultra-smooth video conferences. Fully free.",
                         textAlign: TextAlign.center,
@@ -195,12 +205,13 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                           color: VMeetTheme.textSecondary,
                         ),
                       ),
-                      
+
                       const SizedBox(height: 35),
-                      
+
                       // Glassmorphic Profile Form Container
                       GlassContainer(
-                        opacity: 0.12, // Increased opacity for richer glassmorphism
+                        opacity:
+                            0.12, // Increased opacity for richer glassmorphism
                         padding: const EdgeInsets.all(28),
                         borderRadius: 30,
                         borderSide: BorderSide(
@@ -219,31 +230,41 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                               ),
                             ),
                             const SizedBox(height: 25),
-                            
+
                             // Preview Avatar
                             Center(
-                              child: _buildAvatar(_selectedAvatarIndex, 100, isSelected: true),
+                              child: _buildAvatar(
+                                _selectedAvatarIndex,
+                                100,
+                                isSelected: true,
+                              ),
                             ),
-                            
+
                             const SizedBox(height: 30),
-                            
+
                             // Nickname input field
                             TextField(
                               controller: _nameController,
                               onChanged: (text) => setState(() {}),
                               textCapitalization: TextCapitalization.words,
                               maxLength: 18,
-                              style: GoogleFonts.outfit(color: Colors.white, fontWeight: FontWeight.w500),
+                              style: GoogleFonts.outfit(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                              ),
                               decoration: const InputDecoration(
                                 labelText: "Meeting Nickname",
                                 hintText: "Enter your name...",
-                                prefixIcon: Icon(Icons.person_outline_rounded, color: VMeetTheme.primary),
+                                prefixIcon: Icon(
+                                  Icons.person_outline_rounded,
+                                  color: VMeetTheme.primary,
+                                ),
                                 counterText: "",
                               ),
                             ),
-                            
+
                             const SizedBox(height: 25),
-                            
+
                             // Custom grid of avatar colors
                             Text(
                               "Select Avatar Theme",
@@ -275,13 +296,16 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                           ],
                         ),
                       ),
-                      
+
                       const SizedBox(height: 20),
-                      
+
                       // Permissions Panel
                       GlassContainer(
                         opacity: 0.08,
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 16,
+                        ),
                         borderRadius: 20,
                         borderSide: BorderSide(
                           color: Colors.white.withAlpha(15),
@@ -295,17 +319,22 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                                 Container(
                                   padding: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
-                                    color: (_cameraPermissionGranted && _micPermissionGranted
-                                            ? VMeetTheme.accent
-                                            : VMeetTheme.textSecondary)
-                                        .withAlpha(25),
+                                    color:
+                                        (_cameraPermissionGranted &&
+                                                    _micPermissionGranted
+                                                ? VMeetTheme.accent
+                                                : VMeetTheme.textSecondary)
+                                            .withAlpha(25),
                                     shape: BoxShape.circle,
                                   ),
                                   child: Icon(
-                                    _cameraPermissionGranted && _micPermissionGranted
+                                    _cameraPermissionGranted &&
+                                            _micPermissionGranted
                                         ? Icons.verified_user_rounded
                                         : Icons.security_rounded,
-                                    color: _cameraPermissionGranted && _micPermissionGranted
+                                    color:
+                                        _cameraPermissionGranted &&
+                                            _micPermissionGranted
                                         ? VMeetTheme.accent
                                         : VMeetTheme.textSecondary,
                                     size: 20,
@@ -324,12 +353,15 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                                       ),
                                     ),
                                     Text(
-                                      _cameraPermissionGranted && _micPermissionGranted
+                                      _cameraPermissionGranted &&
+                                              _micPermissionGranted
                                           ? "Permissions granted!"
                                           : "Access required for calling",
                                       style: GoogleFonts.outfit(
                                         fontSize: 11,
-                                        color: _cameraPermissionGranted && _micPermissionGranted
+                                        color:
+                                            _cameraPermissionGranted &&
+                                                _micPermissionGranted
                                             ? VMeetTheme.accent
                                             : VMeetTheme.textSecondary,
                                       ),
@@ -338,7 +370,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                                 ),
                               ],
                             ),
-                            if (!(_cameraPermissionGranted && _micPermissionGranted))
+                            if (!(_cameraPermissionGranted &&
+                                _micPermissionGranted))
                               TextButton(
                                 onPressed: _requestPermissions,
                                 style: TextButton.styleFrom(
@@ -346,7 +379,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                                 ),
                                 child: Text(
                                   "GRANT",
-                                  style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
+                                  style: GoogleFonts.outfit(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               )
                             else
@@ -358,9 +393,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                           ],
                         ),
                       ),
-                      
+
                       const SizedBox(height: 35),
-                      
+
                       // Glowing Let's Go Button
                       GlowingButton(
                         onTap: () async {
@@ -368,21 +403,23 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                           if (name.isEmpty) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: const Text("Please enter a nickname first."),
-                                backgroundColor: VMeetTheme.destructive.withAlpha(200),
+                                content: const Text(
+                                  "Please enter a nickname first.",
+                                ),
+                                backgroundColor: VMeetTheme.destructive
+                                    .withAlpha(200),
                               ),
                             );
                             return;
                           }
-                          
+
                           final navigator = Navigator.of(context);
 
                           // Save user profile state
-                          await ref.read(profileStateProvider.notifier).saveProfile(
-                                name,
-                                _selectedAvatarIndex,
-                              );
-                          
+                          await ref
+                              .read(profileStateProvider.notifier)
+                              .saveProfile(name, _selectedAvatarIndex);
+
                           navigator.pushReplacement(
                             MaterialPageRoute(
                               builder: (context) => const HomeScreen(),
