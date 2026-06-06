@@ -84,11 +84,6 @@ The app dynamically pulls this domain to:
 
 ## 👨‍💻 Developer Signature
 
-This project is built and maintained with 💜 by **Rejuyan**.
+This project is built and maintained by **Rejuyan**.
 
 - **GitHub:** [@Rejuyan](https://github.com/Rejuyan)
-- **Signature inside the app:** Both the **Onboarding Screen** and the **Dashboard Screen** include the developer signature footer: `Made with 💜 by Rejuyan`.
-
----
-
-*Made with love and dedication to premium software experiences.*
