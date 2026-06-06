@@ -1,0 +1,19 @@
+{
+  "name": "vmeet-token-server",
+  "version": "1.0.0",
+  "description": "A lightweight secure JWT access token server for VMeet WebRTC rooms.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "livekit-server-sdk": "^2.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
